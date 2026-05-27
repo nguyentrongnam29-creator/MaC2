@@ -8,7 +8,7 @@ export const defaultPlayer = {
   realm: {
     major: "Luyện Khí",
     minor: "Sơ Kỳ",
-  }
+  },
 
   stats: {
     hp: 100,
