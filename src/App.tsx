@@ -16,6 +16,9 @@ function App() {
   const [levelUpMessage, setLevelUpMessage] =
     useState("")
 
+  const [answerMessage, setAnswerMessage] =
+    useState("")
+
   const [question, setQuestion] = useState(
     getRandomQuestion()
   )
@@ -39,6 +42,10 @@ function App() {
     )
 
     if (isCorrect) {
+      setAnswerMessage(
+        "✔ Chính xác!"
+      )
+
       const oldLevel = player.level
 
       const updatedPlayer =
@@ -57,7 +64,15 @@ function App() {
           setLevelUpMessage("")
         }, 2000)
       }
+    } else {
+      setAnswerMessage(
+        "❌ Sai rồi!"
+      )
     }
+
+    setTimeout(() => {
+      setAnswerMessage("")
+    }, 1200)
 
     setQuestion(getRandomQuestion())
   }
@@ -141,6 +156,21 @@ function App() {
       <h2>
         {question.chinese}
       </h2>
+
+      {answerMessage && (
+        <p
+          style={{
+            color:
+              answerMessage.includes("✔")
+                ? "#4ade80"
+                : "#f87171",
+
+            fontWeight: "bold",
+          }}
+        >
+          {answerMessage}
+        </p>
+      )}
 
       <div
         style={{
