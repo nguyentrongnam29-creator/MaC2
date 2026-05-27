@@ -29,6 +29,9 @@ function App() {
     getRandomQuestion()
   )
 
+  const [enemyHp, setEnemyHp] =
+    useState(100)
+
   const expPercent = Math.min(
     (player.exp / player.maxExp) * 100,
     100
@@ -48,6 +51,19 @@ function App() {
     )
 
     if (isCorrect) {
+      const damage = 25
+
+      const newHp = Math.max(
+        enemyHp - damage,
+        0
+      )
+
+      if (newHp <= 0) {
+        setEnemyHp(100)
+      } else {
+        setEnemyHp(newHp)
+      }
+
       const oldLevel = player.level
 
       const updatedPlayer =
@@ -113,7 +129,8 @@ function App() {
             borderRadius: "12px",
             color: "white",
             fontWeight: "bold",
-            boxShadow: "0 0 20px #7c3aed",
+            boxShadow:
+              "0 0 20px #7c3aed",
           }}
         >
           {levelUpMessage}
@@ -144,7 +161,8 @@ function App() {
           background: "#222",
           borderRadius: "999px",
           overflow: "hidden",
-          border: "1px solid #6d28d9",
+          border:
+            "1px solid #6d28d9",
         }}
       >
         <div
@@ -153,7 +171,37 @@ function App() {
             height: "100%",
             background:
               "linear-gradient(90deg, #7c3aed, #38bdf8)",
-            transition: "width 0.3s ease",
+            transition:
+              "width 0.3s ease",
+          }}
+        />
+      </div>
+
+      <p>
+        Enemy HP:
+        {" "}
+        {enemyHp}
+        / 100
+      </p>
+
+      <div
+        style={{
+          width: "100%",
+          maxWidth: "420px",
+          height: "18px",
+          background: "#222",
+          borderRadius: "999px",
+          overflow: "hidden",
+          marginBottom: "20px",
+        }}
+      >
+        <div
+          style={{
+            width: `${enemyHp}%`,
+            height: "100%",
+            background: "#ef4444",
+            transition:
+              "width 0.3s ease",
           }}
         />
       </div>
@@ -181,7 +229,9 @@ function App() {
         <p
           style={{
             color:
-              answerMessage.includes("✔")
+              answerMessage.includes(
+                "✔"
+              )
                 ? "#4ade80"
                 : "#f87171",
 
@@ -210,7 +260,8 @@ function App() {
               padding: "12px",
               background: "#1e1b4b",
               color: "white",
-              border: "1px solid #7c3aed",
+              border:
+                "1px solid #7c3aed",
               borderRadius: "10px",
               cursor: "pointer",
             }}
