@@ -5,16 +5,27 @@ import { handleCorrectAnswer } from "./systems/gameEngine"
 
 function App() {
   const [player, setPlayer] = useState(getPlayer())
-
-  function handleTrain() {
-    const updatedPlayer = handleCorrectAnswer()
-    setPlayer({ ...updatedPlayer })
-  }
+  const [levelUpMessage, setLevelUpMessage] = useState("")
 
   const expPercent = Math.min(
     (player.exp / player.maxExp) * 100,
     100
   )
+
+  function handleTrain() {
+    const oldLevel = player.level
+    const updatedPlayer = handleCorrectAnswer()
+
+    setPlayer({ ...updatedPlayer })
+
+    if (updatedPlayer.level > oldLevel) {
+      setLevelUpMessage(`⚡ Đột phá Lv ${updatedPlayer.level}!`)
+
+      setTimeout(() => {
+        setLevelUpMessage("")
+      }, 2000)
+    }
+  }
 
   return (
     <div
@@ -27,6 +38,22 @@ function App() {
       }}
     >
       <h1>MaC2</h1>
+
+      {levelUpMessage && (
+        <div
+          style={{
+            marginBottom: "20px",
+            padding: "12px",
+            background: "#7c3aed",
+            borderRadius: "12px",
+            color: "white",
+            fontWeight: "bold",
+            boxShadow: "0 0 20px #7c3aed",
+          }}
+        >
+          {levelUpMessage}
+        </div>
+      )}
 
       <h2>
         {player.realm.major} - {player.realm.minor}
