@@ -14,6 +14,8 @@ import {
 
 import { shuffleArray } from "./utils/shuffle"
 
+import { enemies } from "./data/enemies"
+
 function App() {
   const [player, setPlayer] = useState(
     getPlayer()
@@ -29,8 +31,11 @@ function App() {
     getRandomQuestion()
   )
 
+  const [currentEnemy, setCurrentEnemy] =
+    useState(enemies[0])
+
   const [enemyHp, setEnemyHp] =
-    useState(100)
+    useState(currentEnemy.maxHp)
 
   const expPercent = Math.min(
     (player.exp / player.maxExp) * 100,
@@ -58,16 +63,6 @@ function App() {
         0
       )
 
-      if (newHp <= 0) {
-  setEnemyHp(100)
-
-  setAnswerMessage(
-    "💀 Yêu thú đã bị tiêu diệt!"
-  )
-} else {
-  setEnemyHp(newHp)
-}
-
       const oldLevel = player.level
 
       const updatedPlayer =
@@ -76,9 +71,29 @@ function App() {
       const expGain =
         updatedPlayer.gainedExp
 
-      setAnswerMessage(
-        `✔ Chính xác! +${expGain} EXP`
-      )
+      if (newHp <= 0) {
+        const randomEnemy =
+          enemies[
+            Math.floor(
+              Math.random() *
+                enemies.length
+            )
+          ]
+
+        setCurrentEnemy(randomEnemy)
+
+        setEnemyHp(randomEnemy.maxHp)
+
+        setAnswerMessage(
+          `💀 Đã tiêu diệt ${currentEnemy.name}! +${expGain} EXP`
+        )
+      } else {
+        setEnemyHp(newHp)
+
+        setAnswerMessage(
+          `✔ Chính xác! +${expGain} EXP`
+        )
+      }
 
       setPlayer({ ...updatedPlayer })
 
@@ -181,11 +196,21 @@ function App() {
         />
       </div>
 
+      <h2>
+        🐺 {currentEnemy.name}
+      </h2>
+
+      <p>
+        {currentEnemy.realm}
+      </p>
+
       <p>
         Enemy HP:
         {" "}
         {enemyHp}
-        / 100
+        /
+        {" "}
+        {currentEnemy.maxHp}
       </p>
 
       <div
@@ -201,7 +226,11 @@ function App() {
       >
         <div
           style={{
-            width: `${enemyHp}%`,
+            width: `${
+              (enemyHp /
+                currentEnemy.maxHp) *
+              100
+            }%`,
             height: "100%",
             background: "#ef4444",
             transition:
@@ -234,10 +263,10 @@ function App() {
           style={{
             color:
               answerMessage.includes(
-                "✔"
+                "❌"
               )
-                ? "#4ade80"
-                : "#f87171",
+                ? "#f87171"
+                : "#4ade80",
 
             fontWeight: "bold",
           }}
