@@ -1,12 +1,17 @@
 import { useState } from "react"
 
 import { getPlayer } from "./systems/playerSystem"
-import { handleCorrectAnswer } from "./systems/gameEngine"
+
+import {
+  handleCorrectAnswer,
+  handleWrongAnswer,
+} from "./systems/gameEngine"
 
 import {
   getRandomQuestion,
   checkAnswer,
 } from "./systems/quizSystem"
+
 import { shuffleArray } from "./utils/shuffle"
 
 function App() {
@@ -30,11 +35,11 @@ function App() {
   )
 
   const answers = shuffleArray([
-  "yêu",
-  "ăn",
-  "uống",
-  "ngủ",
-])
+    "yêu",
+    "ăn",
+    "uống",
+    "ngủ",
+  ])
 
   function handleAnswer(selected: string) {
     const isCorrect = checkAnswer(
@@ -43,14 +48,17 @@ function App() {
     )
 
     if (isCorrect) {
-      setAnswerMessage(
-        "✔ Chính xác!"
-      )
-
       const oldLevel = player.level
 
       const updatedPlayer =
         handleCorrectAnswer()
+
+      const expGain =
+        updatedPlayer.gainedExp
+
+      setAnswerMessage(
+        `✔ Chính xác! +${expGain} EXP`
+      )
 
       setPlayer({ ...updatedPlayer })
 
@@ -66,6 +74,11 @@ function App() {
         }, 2000)
       }
     } else {
+      const updatedPlayer =
+        handleWrongAnswer()
+
+      setPlayer({ ...updatedPlayer })
+
       setAnswerMessage(
         "❌ Sai rồi!"
       )
@@ -116,6 +129,12 @@ function App() {
       </h2>
 
       <p>Level: {player.level}</p>
+
+      <p>
+        Streak:
+        {" "}
+        {player.streak}
+      </p>
 
       <div
         style={{
