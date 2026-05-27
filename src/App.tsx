@@ -7,6 +7,7 @@ import {
   getRandomQuestion,
   checkAnswer,
 } from "./systems/quizSystem"
+import { shuffleArray } from "./utils/shuffle"
 
 function App() {
   const [player, setPlayer] = useState(
@@ -28,12 +29,12 @@ function App() {
     100
   )
 
-  const answers = [
-    "yêu",
-    "ăn",
-    "uống",
-    "ngủ",
-  ]
+  const answers = shuffleArray([
+  "yêu",
+  "ăn",
+  "uống",
+  "ngủ",
+])
 
   function handleAnswer(selected: string) {
     const isCorrect = checkAnswer(
