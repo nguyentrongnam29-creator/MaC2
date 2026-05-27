@@ -341,6 +341,34 @@ function App() {
         </p>
       )}
 
+      <button
+        onClick={() => {
+          const healedHp = Math.min(
+            playerHp + 30,
+            player.stats.hp
+          )
+
+          setPlayerHp(healedHp)
+
+          setAnswerMessage(
+            "🧘 Thiền định hồi phục 30 HP"
+          )
+        }}
+        style={{
+          padding: "12px",
+          marginBottom: "20px",
+          background: "#0f766e",
+          color: "white",
+          border: "none",
+          borderRadius: "10px",
+          cursor: "pointer",
+          boxShadow:
+            "0 0 15px #0f766e",
+        }}
+      >
+        🧘 Thiền Định
+      </button>
+
       <div
         style={{
           display: "flex",
