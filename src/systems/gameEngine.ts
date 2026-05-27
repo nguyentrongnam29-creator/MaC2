@@ -11,6 +11,14 @@ export function handleCorrectAnswer() {
 
   let expGain = 10
 
+if (player.streak >= 5) {
+  expGain += 10
+}
+
+if (player.streak >= 5) {
+  expGain += 10
+}
+
   if (newStreak >= 3) {
     expGain = 20
   } else if (newStreak >= 2) {

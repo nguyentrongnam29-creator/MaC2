@@ -59,10 +59,14 @@ function App() {
       )
 
       if (newHp <= 0) {
-        setEnemyHp(100)
-      } else {
-        setEnemyHp(newHp)
-      }
+  setEnemyHp(100)
+
+  setAnswerMessage(
+    "💀 Yêu thú đã bị tiêu diệt!"
+  )
+} else {
+  setEnemyHp(newHp)
+}
 
       const oldLevel = player.level
 
