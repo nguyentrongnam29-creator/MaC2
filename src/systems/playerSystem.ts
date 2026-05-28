@@ -1,19 +1,24 @@
 import { defaultPlayer } from "../data/defaultPlayer"
+import { loadPlayer, savePlayer } from "../storage/playerStorage"
+import type { PlayerState } from "../types/game"
 
-let player = defaultPlayer
+let player: PlayerState = { ...defaultPlayer }
 
-export function getPlayer() {
-  const savedPlayer = localStorage.getItem("mac2_player")
-
-  if (savedPlayer) {
-    player = JSON.parse(savedPlayer)
-  }
-
+export function getPlayer(): PlayerState {
+  player = loadPlayer()
   return player
 }
 
-export function updatePlayer(updater: (player: any) => any) {
+export function setPlayer(nextPlayer: PlayerState): PlayerState {
+  player = nextPlayer
+  savePlayer(player)
+  return player
+}
+
+export function updatePlayer(
+  updater: (currentPlayer: PlayerState) => PlayerState,
+): PlayerState {
   player = updater(player)
-  localStorage.setItem("mac2_player", JSON.stringify(player))
+  savePlayer(player)
   return player
 }

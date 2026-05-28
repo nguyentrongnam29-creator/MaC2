@@ -1,6 +1,7 @@
 import { gainExp } from "./expSystem"
 import { checkLevelUp } from "./levelSystem"
 import { getPlayer, updatePlayer } from "./playerSystem"
+import type { PlayerState } from "../types/game"
 
 export function handleCorrectAnswer() {
   const player = getPlayer()
@@ -16,19 +17,27 @@ export function handleCorrectAnswer() {
 
   gainExp(expGain)
 
-  const updatedPlayer = checkLevelUp()
+  const levelResult = checkLevelUp()
 
-  updatedPlayer.streak = newStreak
+  const updatedPlayer = updatePlayer((currentPlayer) => ({
+    ...levelResult.player,
+    streak: newStreak,
+    realm: {
+      ...currentPlayer.realm,
+      cultivation: currentPlayer.realm.cultivation + Math.floor(expGain * 0.8),
+    },
+  }))
 
   return {
     ...updatedPlayer,
     gainedExp: expGain,
+    levelUps: levelResult.levelUps,
   }
 }
 
 export function handleWrongAnswer() {
-  return updatePlayer((player) => ({
-    ...player,
+  return updatePlayer((currentPlayer: PlayerState) => ({
+    ...currentPlayer,
     streak: 0,
   }))
 }
