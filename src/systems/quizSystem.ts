@@ -6,26 +6,15 @@ export function getRandomQuestion() {
   let randomQuestion
 
   do {
-    const randomIndex = Math.floor(
-      Math.random() * vocab.length
-    )
+    const randomIndex = Math.floor(Math.random() * vocab.length)
+    randomQuestion = vocab[randomIndex]
+  } while (randomQuestion.chinese === lastQuestion)
 
-    randomQuestion =
-      vocab[randomIndex]
-  } while (
-    randomQuestion.chinese ===
-    lastQuestion
-  )
-
-  lastQuestion =
-    randomQuestion.chinese
+  lastQuestion = randomQuestion.chinese
 
   return randomQuestion
 }
 
-export function checkAnswer(
-  selected: string,
-  correct: string
-) {
+export function checkAnswer(selected: string, correct: string) {
   return selected === correct
 }

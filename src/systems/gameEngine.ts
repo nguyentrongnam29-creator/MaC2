@@ -1,23 +1,12 @@
 import { gainExp } from "./expSystem"
 import { checkLevelUp } from "./levelSystem"
-
-import { getPlayer } from "./playerSystem"
+import { getPlayer, updatePlayer } from "./playerSystem"
 
 export function handleCorrectAnswer() {
   const player = getPlayer()
-
-  const newStreak =
-    player.streak + 1
+  const newStreak = player.streak + 1
 
   let expGain = 10
-
-if (player.streak >= 5) {
-  expGain += 10
-}
-
-if (player.streak >= 5) {
-  expGain += 10
-}
 
   if (newStreak >= 3) {
     expGain = 20
@@ -27,11 +16,9 @@ if (player.streak >= 5) {
 
   gainExp(expGain)
 
-  const updatedPlayer =
-    checkLevelUp()
+  const updatedPlayer = checkLevelUp()
 
-  updatedPlayer.streak =
-    newStreak
+  updatedPlayer.streak = newStreak
 
   return {
     ...updatedPlayer,
@@ -40,9 +27,8 @@ if (player.streak >= 5) {
 }
 
 export function handleWrongAnswer() {
-  const player = getPlayer()
-
-  player.streak = 0
-
-  return player
+  return updatePlayer((player) => ({
+    ...player,
+    streak: 0,
+  }))
 }

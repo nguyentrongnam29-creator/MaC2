@@ -1,23 +1,19 @@
-import { loadPlayer, savePlayer } from "../storage/playerStorage"
+import { defaultPlayer } from "../data/defaultPlayer"
 
-let player = loadPlayer()
+let player = defaultPlayer
 
 export function getPlayer() {
+  const savedPlayer = localStorage.getItem("mac2_player")
+
+  if (savedPlayer) {
+    player = JSON.parse(savedPlayer)
+  }
+
   return player
 }
 
-export function setPlayer(newPlayer: any) {
-  player = newPlayer
-
-  savePlayer(player)
-}
-
-export function updatePlayer(
-  updater: (player: any) => any
-) {
+export function updatePlayer(updater: (player: any) => any) {
   player = updater(player)
-
-  savePlayer(player)
-
+  localStorage.setItem("mac2_player", JSON.stringify(player))
   return player
 }

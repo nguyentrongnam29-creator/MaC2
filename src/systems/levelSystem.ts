@@ -3,16 +3,10 @@ import { getRequiredExp } from "../utils/expFormula"
 
 export function checkLevelUp() {
   return updatePlayer((player) => {
-    let updatedPlayer = { ...player }
+    const updatedPlayer = { ...player }
 
-    while (
-      updatedPlayer.exp >=
-      getRequiredExp(updatedPlayer.level)
-    ) {
-      updatedPlayer.exp -= getRequiredExp(
-        updatedPlayer.level
-      )
-
+    while (updatedPlayer.exp >= getRequiredExp(updatedPlayer.level)) {
+      updatedPlayer.exp -= getRequiredExp(updatedPlayer.level)
       updatedPlayer.level += 1
 
       updatedPlayer.stats.hp += 20
@@ -20,8 +14,7 @@ export function checkLevelUp() {
       updatedPlayer.stats.atk += 5
       updatedPlayer.stats.defense += 2
 
-      updatedPlayer.maxExp =
-        getRequiredExp(updatedPlayer.level)
+      updatedPlayer.maxExp = getRequiredExp(updatedPlayer.level)
     }
 
     return updatedPlayer

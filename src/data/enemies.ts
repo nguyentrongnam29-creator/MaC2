@@ -6,7 +6,6 @@ export const enemies = [
     damage: 5,
     color: "#9ca3af",
   },
-
   {
     name: "Hắc Xà",
     realm: "Luyện Khí Nhị Trọng",
@@ -14,7 +13,6 @@ export const enemies = [
     damage: 10,
     color: "#22c55e",
   },
-
   {
     name: "Ma Viên",
     realm: "Luyện Khí Tam Trọng",
